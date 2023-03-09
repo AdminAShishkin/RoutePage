@@ -1,0 +1,397 @@
+using Microsoft.Office.Interop.Excel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Globalization;
+
+namespace DriverPage
+{
+    public partial class Form1 : Form
+    {
+        //import data from txt files in current directory
+        private void loadComboBox1()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "Firms.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox1.Items.AddRange(lines);
+            comboBox1.SelectedIndex = 0;
+        }
+        private void loadComboBox2()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "Car.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox2.Items.AddRange(lines);
+            comboBox2.SelectedIndex = 0;
+        }
+        private void loadComboBox3()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "DriverNames.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox3.Items.AddRange(lines);
+            comboBox3.SelectedIndex = 0;
+        }
+        private void loadComboBox5()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "Dispetcher.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox5.Items.AddRange(lines);
+            comboBox5.SelectedIndex = 0;
+        }
+        private void loadComboBox6()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "Mechanik.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox6.Items.AddRange(lines);
+            comboBox6.SelectedIndex = 0;
+        }
+        private void loadComboBox8()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "DriverLicense.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox8.Items.AddRange(lines);
+            comboBox8.SelectedIndex = 0;
+        }
+        private void loadComboBox10()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "CarNumber.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox10.Items.AddRange(lines);
+            comboBox10.SelectedIndex = 0;
+        }
+        private void loadComboBox11()
+        {
+            string path = Directory.GetCurrentDirectory();
+            string build = (path + "\\" + "Accountant.txt");
+            string[] lines = System.IO.File.ReadAllLines(build);
+            comboBox11.Items.AddRange(lines);
+            comboBox11.SelectedIndex = 0;
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+
+        }
+        public Form1()
+        {
+            InitializeComponent();
+            loadComboBox1(); 
+            loadComboBox2();
+            loadComboBox3();
+            loadComboBox5();
+            loadComboBox6();
+            loadComboBox8();
+            loadComboBox10();
+            loadComboBox11();
+        }
+    
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox11.Text, "[^0-9, . , '-' , :]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox11.Text = textBox11.Text.Remove(textBox11.Text.Length - 1);
+                textBox11.Clear();
+            }
+        }
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+  
+        private void textBox15_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox15.Text, "[^0-9]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox15.Text = textBox15.Text.Remove(textBox15.Text.Length, 0);
+                textBox15.Text = "0";
+            }
+           
+        }
+         private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label27_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox19_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox19.Text, "[^0-9, . , -, :]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox19.Text = textBox19.Text.Remove(textBox19.Text.Length - 1);
+                textBox19.Clear();
+            }
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        int Economia;
+        int Pererashod;
+        int factPetrolUsage;
+        int distance = 0;
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            if (textBox15.Text == "" || textBox12.Text == "" || textBox14.Text == "" || textBox16.Text == "" || textBox17.Text == "" || textBox18.Text == "")
+            { System.Windows.MessageBox.Show("Заполните поля"); }
+            else
+            {
+                if (int.Parse(textBox15.Text) > int.Parse(textBox12.Text) && textBox12.Text != "")
+                {
+                    distance = int.Parse(textBox15.Text) - int.Parse(textBox12.Text);
+                    textBox5.Text = distance.ToString();
+                    textBox5.BackColor = Color.LightGreen;
+                    factPetrolUsage = (int.Parse(textBox14.Text) + int.Parse(textBox16.Text) - int.Parse(textBox17.Text)) * 100 / (int.Parse(textBox15.Text) - int.Parse(textBox12.Text));
+                    textBox23.Text = factPetrolUsage.ToString();
+                    textBox23.BackColor = Color.LightGreen;
+                }
+                else
+                {
+                    textBox5.BackColor = Color.Red;
+                    textBox23.BackColor = Color.Red;
+                    System.Windows.MessageBox.Show("Исправьте поля");
+                }
+                if (int.Parse(textBox18.Text) > factPetrolUsage)
+                {
+                    Economia = int.Parse(textBox18.Text) - factPetrolUsage;
+                    Pererashod = 0;
+                }
+                else
+                {
+                    Pererashod = factPetrolUsage - int.Parse(textBox18.Text);
+                    Economia = 0;
+                }
+            }
+
+        }
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void comboBox8_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+       
+        public void textBox12_TextChanged(object sender, EventArgs e)
+        {
+            
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox12.Text, "[^0-9]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox12.Text = textBox12.Text.Remove(textBox12.Text.Length - 1);
+                textBox12.Clear();
+            }
+          
+        }
+        private void textBox14_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox14.Text, "[^0-9, . ,]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox14.Text = textBox14.Text.Remove(textBox14.Text.Length - 1);
+                textBox14.Clear();
+            }
+        }
+        string checkboxdata1 = "ограниченная";
+        string checkboxdata2 = "стандартная";
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                checkBox2.Checked = false;
+                checkboxdata1= "ограниченная";
+                checkboxdata2 = "стандартная";
+            }
+        }
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked == true)
+            {
+                checkBox1.Checked = false;
+                string temp;
+                checkboxdata2 = "ограниченная";
+                checkboxdata1 = "стандартная";
+            
+            }
+        }
+
+        
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            
+            //start work with ms excel
+            var _filePath = Path.Combine(Directory.GetCurrentDirectory(), "PutevoiList.xls");
+            Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook sheet = excel.Workbooks.Open(_filePath);
+            Microsoft.Office.Interop.Excel.Worksheet x = excel.ActiveSheet as Microsoft.Office.Interop.Excel.Worksheet;
+            //Microsoft.Office.Interop.Excel.Worksheet x2 = excel.ActiveSheet[2] as Microsoft.Office.Interop.Excel.Worksheet;
+            //put text from boxes to excel's cells
+            string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dateTimePicker1.Value.Month);
+            x.Cells[5, 30] = dateTimePicker1.Value.Day;
+            x.Cells[5, 35] = monthName;
+            x.Cells[5, 47] = dateTimePicker1.Value.Year;
+            x.Cells[8, 18] = comboBox1.SelectedItem.ToString();
+            x.Cells[10, 22] = comboBox2.SelectedItem.ToString();
+            x.Cells[11, 35] = comboBox10.SelectedItem.ToString();
+            x.Cells[12, 13] = comboBox3.SelectedItem.ToString();
+            x.Cells[45, 30] = comboBox3.SelectedItem.ToString();
+            x.Cells[26, 68] = comboBox3.SelectedItem.ToString();
+            x.Cells[20, 17] = textBox10.Text.ToString();
+            x.Cells[32, 30] = comboBox5.SelectedItem.ToString();
+            x.Cells[36, 30] = comboBox5.SelectedItem.ToString();
+            x.Cells[46, 66] = comboBox6.SelectedItem.ToString();
+            x.Cells[22, 66] = comboBox6.SelectedItem.ToString();
+            x.Cells[14, 19] = comboBox8.SelectedItem.ToString();
+            x.Cells[29, 58] = comboBox7.Text;
+            x.Cells[19, 73] = textBox12.Text.ToString();
+            x.Cells[12, 68] = textBox4.Text.ToString();
+            x.Cells[11, 68] = textBox6.Text.ToString();
+            x.Cells[27, 1] = textBox7.Text.ToString();
+            x.Cells[30, 31] = textBox9.Text.ToString();
+            x.Cells[35, 33] = textBox11.Text.ToString();
+            x.Cells[36, 55] = textBox13.Text.ToString();
+            x.Cells[34, 72] = textBox14.Text.ToString();
+            x.Cells[45, 72] = textBox15.Text.ToString();
+            x.Cells[37, 72] = textBox16.Text.ToString();
+            x.Cells[38, 72] = textBox17.Text.ToString();
+            x.Cells[39, 72] = textBox18.Text.ToString();
+            x.Cells[17, 22] = textBox20.Text.ToString();
+            x.Cells[17, 44] = textBox21.Text.ToString();
+            x.Cells[17, 61] = textBox22.Text.ToString();
+            x.Cells[40, 72] = textBox23.Text.ToString();
+            x.Cells[15, 25] = checkboxdata1;
+            x.Cells[15, 40] = checkboxdata2;
+            x.Cells[14, 67] = comboBox9.Text;
+            x.Cells[41, 72] = Economia;   //economia
+            x.Cells[42,72]= Pererashod;    //pererashod
+            //x2.Cells[39, 11] = comboBox11.SelectedItem.ToString();
+            sheet.Close(true, Type.Missing, Type.Missing);
+           // sheet.Close(true);
+            excel.Quit();
+            Process.Start(_filePath);
+          
+
+        }
+       
+        private void label34_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox9.Text, "[^0-9, . , '-' , :]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox9.Text = textBox9.Text.Remove(textBox9.Text.Length - 1);
+                textBox9.Clear();
+            }
+        }
+        private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox16_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox16.Text, "[^0-9, . ,]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox16.Text = textBox16.Text.Remove(textBox16.Text.Length - 1);
+                textBox16.Clear();
+            }
+        }
+        private void textBox17_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox17.Text, "[^0-9, . ,]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox17.Text = textBox17.Text.Remove(textBox17.Text.Length - 1);
+                textBox17.Clear();
+            }
+        }
+        private void textBox18_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox18.Text, "[^0-9, . ,]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox18.Text = textBox18.Text.Remove(textBox18.Text.Length - 1);
+                textBox18.Clear();
+            }
+        }
+        private void textBox23_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox3.Text, "[^0-9, . , -, :]"))
+            {
+                System.Windows.MessageBox.Show("Введите число");
+                textBox3.Text = textBox3.Text.Remove(textBox3.Text.Length - 1);
+                textBox3.Clear();
+            }
+        }
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox22_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox24_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+    }
+}
